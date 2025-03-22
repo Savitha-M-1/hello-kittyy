@@ -1,0 +1,116 @@
+{
+  "status": {
+    "code": 200,
+    "message": "Fetched subscriptions successfully"
+  },
+  "result": {
+    "subscriptions": [
+      {
+        "subscription_number": "A-S10001",
+        "tracking_id": "TRK-10001",
+        "customer_name": "Acme Corp",
+        "linked_subscriptions": [
+          {
+            "subscription_number": "A-S10002",
+            "tracking_id": "TRK-10002"
+          }
+        ],
+        "keystone_version": "v1_physical",
+        "billing_period": "Month",
+        "performance_levels": ["standard", "premium"],
+        "highest_capacity": 105,
+        "days_to_subscription_expiry": 45,
+        "burst_percentage": 10,
+        "consumption_status": "Burst",
+        "subscription_start_date": "2023-01-01",
+        "subscription_end_date": "2024-12-31"
+      },
+      {
+        "subscription_number": "A-S10003",
+        "tracking_id": "TRK-10003",
+        "customer_name": "Beta Inc",
+        "linked_subscriptions": [],
+        "keystone_version": "v2_logical",
+        "billing_period": "Quarter",
+        "performance_levels": ["standard"],
+        "highest_capacity": 98,
+        "days_to_subscription_expiry": 15,
+        "burst_percentage": 20,
+        "consumption_status": "Burst",
+        "subscription_start_date": "2022-01-01",
+        "subscription_end_date": "2023-12-31"
+      },
+      {
+        "subscription_number": "A-S10004",
+        "tracking_id": "TRK-10004",
+        "customer_name": "Gamma Ltd",
+        "linked_subscriptions": [],
+        "keystone_version": "v3",
+        "billing_period": "Month",
+        "performance_levels": ["standard"],
+        "highest_capacity": 40,
+        "days_to_subscription_expiry": -5,
+        "burst_percentage": 15,
+        "consumption_status": "Above-Limit",
+        "subscription_start_date": "2021-01-01",
+        "subscription_end_date": "2023-12-31"
+      }
+    ],
+    "summary": {
+      "expired_subscriptions": [
+        {
+          "subscription_number": "A-S10004",
+          "tracking_id": "TRK-10004"
+        }
+      ],
+      "about_to_expire_subscriptions": [
+        {
+          "subscription_number": "A-S10001",
+          "tracking_id": "TRK-10001"
+        },
+        {
+          "subscription_number": "A-S10003",
+          "tracking_id": "TRK-10003"
+        }
+      ],
+      "keystone_versions": {
+        "v1": [
+          {
+            "subscription_number": "A-S10001",
+            "tracking_id": "TRK-10001"
+          }
+        ],
+        "v2": [
+          {
+            "subscription_number": "A-S10003",
+            "tracking_id": "TRK-10003"
+          }
+        ],
+        "v3": [
+          {
+            "subscription_number": "A-S10004",
+            "tracking_id": "TRK-10004"
+          }
+        ]
+      },
+      "above_burst_subscriptions": [
+        {
+          "subscription_number": "A-S10001",
+          "tracking_id": "TRK-10001"
+        }
+      ],
+      "using_burst_subscriptions": [
+        {
+          "subscription_number": "A-S10003",
+          "tracking_id": "TRK-10003"
+        }
+      ],
+      "underutilized_subscriptions": [
+        {
+          "subscription_number": "A-S10004",
+          "tracking_id": "TRK-10004"
+        }
+      ]
+    }
+  }
+}
