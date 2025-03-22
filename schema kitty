@@ -1,149 +1,50 @@
-openapi: 3.0.3
-info:
-  title: Subscriptions API
-  version: 1.0.0
-description: API to fetch subscription details along with summary.
-
 paths:
-  /subscriptions:
+  /subscriptions/{subscription_numbers}:
     get:
-      summary: Get list of subscriptions with summary
-      operationId: getSubscriptions
+      operationId: listSubscriptionsInfo
+      summary: "Returns subscription info with summary for given Keystone subscription numbers"
       tags:
-        - subscriptions
+        - Subscription
+      parameters:
+        - $ref: "#/components/parameters/subscriptionNumbersParam"
+      security:
+        - basicAuth: []
       responses:
-        '200':
-          description: Successful response with subscription list and summary
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/GetSubscriptionsResponse'
+        200:
+          $ref: "#/components/responses/ListSubscriptionsInfoResponse"
+        400:
+          $ref: "#/components/responses/BadRequest"
+        401:
+          $ref: "#/components/responses/Unauthorized"
+        403:
+          $ref: "#/components/responses/Forbidden"
+        500:
+          $ref: "#/components/responses/InternalServerError"
 
 components:
+  responses:
+    ListSubscriptionsInfoResponse:
+      description: "Details of Keystone subscriptions by subscription numbers"
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              status:
+                $ref: "#/components/schemas/Status"
+              result:
+                $ref: "#/components/schemas/SubscriptionsInfo"
+
   schemas:
-
-    Status:
+    SubscriptionsInfo:
       type: object
       properties:
-        code:
-          type: integer
-        message:
-          type: string
-        user_message:
-          type: string
-        verbose_message:
-          type: string
-
-    SubscriptionIdentification:
-      type: object
-      properties:
-        subscription_number:
-          type: string
-        tracking_id:
-          type: string
+        subscriptions:
+          type: array
+          items:
+            $ref: "#/components/schemas/SubscriptionBase"
+        summary:
+          $ref: "#/components/schemas/SubscriptionsSummary"
       required:
-        - subscription_number
-        - tracking_id
-
-    KeystoneVersionSummary:
-      type: object
-      properties:
-        v1:
-          type: array
-          items:
-            $ref: "#/components/schemas/SubscriptionIdentification"
-        v2:
-          type: array
-          items:
-            $ref: "#/components/schemas/SubscriptionIdentification"
-        v3:
-          type: array
-          items:
-            $ref: "#/components/schemas/SubscriptionIdentification"
-      required:
-        - v1
-        - v2
-        - v3
-
-    SubscriptionsSummary:
-      type: object
-      properties:
-        expired_subscriptions:
-          type: array
-          items:
-            $ref: "#/components/schemas/SubscriptionIdentification"
-        about_to_expire_subscriptions:
-          type: array
-          items:
-            $ref: "#/components/schemas/SubscriptionIdentification"
-        keystone_versions:
-          $ref: "#/components/schemas/KeystoneVersionSummary"
-        above_burst_subscriptions:
-          type: array
-          items:
-            $ref: "#/components/schemas/SubscriptionIdentification"
-        using_burst_subscriptions:
-          type: array
-          items:
-            $ref: "#/components/schemas/SubscriptionIdentification"
-        underutilized_subscriptions:
-          type: array
-          items:
-            $ref: "#/components/schemas/SubscriptionIdentification"
-
-    SubscriptionBase:
-      type: object
-      properties:
-        subscription_number:
-          type: string
-        tracking_id:
-          type: string
-        customer_name:
-          type: string
-        linked_subscriptions:
-          type: array
-          items:
-            $ref: "#/components/schemas/SubscriptionIdentification"
-        keystone_version:
-          type: string
-        billing_period:
-          type: string
-        performance_levels:
-          type: array
-          items:
-            type: string
-        highest_capacity:
-          type: number
-        days_to_subscription_expiry:
-          type: integer
-        burst_percentage:
-          type: number
-        consumption_status:
-          type: string
-        subscription_start_date:
-          type: string
-          format: date
-        subscription_end_date:
-          type: string
-          format: date
-
-    GetSubscriptionsResponse:
-      type: object
-      properties:
-        status:
-          $ref: "#/components/schemas/Status"
-        result:
-          type: object
-          properties:
-            subscriptions:
-              type: array
-              items:
-                $ref: "#/components/schemas/SubscriptionBase"
-            summary:
-              $ref: "#/components/schemas/SubscriptionsSummary"
-          required:
-            - subscriptions
-            - summary
-      required:
-        - status
-        - result
+        - subscriptions
+        - summary
